@@ -1,0 +1,63 @@
+---
+
+- name: Create MARIADB Volume
+  file:
+    path: "{{ MARIADB_VOLUME }}"
+    state: directory
+
+- name: Create NEXTCLOUD Volume
+  file:
+    path: "{{ NEXTCLOUD_VOLUME }}"
+    state: directory
+
+- name: Remove Nextcloud Container
+  docker_container:
+    name: nextcloud
+    state: absent
+
+- name: Remove MariaDB Container
+  docker_container:
+    name: mariadb
+    state: absent
+
+- name: Remove Nginx Container
+  docker_container:
+    name: nginx
+    state: absent
+
+- name: Stage Docker Compose File
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ stg_dir }}/nextcloud-compose.yml"
+
+- name: Create Docker Network
+  docker_network:
+    name: "{{ nextcloud_network }}"
+
+- name: Pull NGINX docker image
+  docker_image:
+    name: "{{ NGINX_IMAGE }}"
+    source: pull
+    pull:
+      platform: arm
+
+- name: Pull NEXTCLOUD docker image
+  docker_image:
+    name: "{{ NEXTCLOUD_IMAGE }}"
+    source: pull
+    pull:
+      platform: arm
+
+- name: Pull MARIADB docker image
+  docker_image:
+    name: "{{ MARIADB_IMAGE }}"
+    source: pull
+    pull:
+      platform: arm
+
+- name: Pull MARIADB docker image
+  docker_image:
+    name: "{{ MARIADB_IMAGE }}"
+    source: pull
+    pull:
+      platform: arm

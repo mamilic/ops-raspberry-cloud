@@ -1,0 +1,13 @@
+---
+
+- name: Create NGINX Volume
+  file:
+    path: "{{ NGINX_VOLUME }}"
+    state: directory
+
+- name: Copy Configuration File
+  become: true
+  template:
+    src: nginx.conf
+    dest: "{{ NGINX_VOLUME }}/nginx.conf"
+    follow: yes

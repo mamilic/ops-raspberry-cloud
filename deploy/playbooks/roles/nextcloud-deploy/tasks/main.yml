@@ -1,0 +1,14 @@
+---
+
+- name: Pre Deploy Steps
+  import_tasks: pre-deploy.yml
+
+- name: Deploy Nextcloud Services
+  docker_compose:
+    project_src: "{{ stg_dir }}"
+    files:
+      - nextcloud-compose.yml
+  register: nextcloud_deploy
+
+- name: Clean Up
+  import_tasks: post-deploy.yml

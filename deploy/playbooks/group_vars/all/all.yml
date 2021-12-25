@@ -1,0 +1,23 @@
+stg_dir: "/tmp/stg"
+nextcloud_network: "nextcloud_net"
+
+# DOCKER
+docker_users: ["pi"]
+NGINX_IMAGE: "nginx"
+MARIADB_IMAGE: "linuxserver/mariadb"
+NEXTCLOUD_IMAGE: "nextcloud:fpm"
+
+# MARIADB
+MYSQL_DATABASE: "nextcloud"
+MYSQL_USER: "nextcloud"
+MYSQL_ROOT_PASSWORD: "SB'{~=Cb7NdfA:M="
+MYSQL_PASSWORD: "SB'{~=Cb7NdfA:M="
+
+# VOLUMES
+MARIADB_VOLUME: "{{ ansible_env.HOME }}/mariadb"
+NEXTCLOUD_VOLUME: "{{ ansible_env.HOME }}/nextcloud"
+NGINX_VOLUME: "{{ ansible_env.HOME }}/nginx"
+
+# COLLABORA
+COLLABORA_PASSWORD: "asdf"
+COLLABORA_USERNAME: "asdf"

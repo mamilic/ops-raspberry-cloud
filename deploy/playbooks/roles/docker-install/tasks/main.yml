@@ -1,0 +1,13 @@
+---
+
+- name: Check if Docker is Installed
+  shell: dpkg-query -W 'docker'
+  register: docker_status
+  ignore_errors: true
+
+- name: Install Docker
+  import_tasks: docker.yml
+  when: docker_status.failed == true
+
+- name: Install Docker Compose
+  import_tasks: docker-compose.yml

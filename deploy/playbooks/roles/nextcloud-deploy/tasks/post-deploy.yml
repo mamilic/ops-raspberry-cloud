@@ -1,0 +1,6 @@
+---
+
+- name: Delete Staging Aeria
+  file:
+    path: "{{ stg_dir }}"
+    state: absent

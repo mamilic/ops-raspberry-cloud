@@ -1,0 +1,25 @@
+---
+
+- name: Create Cert Directory
+  become: true
+  file:
+    path: "{{ NGINX_VOLUME }}/cert"
+    state: directory
+
+- name: Copy SSL Certificate
+  become: true
+  template:
+    src: cert/lan-crt.pem
+    dest: "{{ NGINX_VOLUME }}/cert/lan-crt.pem"
+
+- name: Copy SSL Key
+  become: true
+  copy:
+    src: cert/lan-key.pem
+    dest: "{{ NGINX_VOLUME }}/cert/lan-key.pem"
+
+- name: Copy dhparam
+  become: true
+  copy:
+    src: cert/dhparam.pem
+    dest: "{{ NGINX_VOLUME }}/cert/dhparam.pem"

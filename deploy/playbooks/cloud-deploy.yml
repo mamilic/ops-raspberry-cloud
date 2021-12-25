@@ -1,0 +1,18 @@
+---
+
+- name: Prepare Environment
+  hosts: raspberry_pi
+  roles:
+    - prepare-env
+    - docker-install
+    - cert-install
+  tags:
+    - setup
+
+- name: Deploy Nextcloud Services
+  hosts: raspberry_pi
+  roles:
+    - nginx-setup
+    - nextcloud-deploy
+  tags:
+    - deploy

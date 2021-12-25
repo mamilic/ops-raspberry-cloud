@@ -1,0 +1,85 @@
+networks:
+  {{ nextcloud_network }}:
+        external: true
+
+services:
+
+  ##############
+  ### NGINX ####
+  ##############
+  nginx:
+    container_name: nginx
+    image: {{ NGINX_IMAGE }}
+    depends_on:
+      - nextcloud
+    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - {{ nextcloud_network }}
+    volumes:
+      - {{ NEXTCLOUD_VOLUME }}:/var/www/html:ro
+      - {{ NGINX_VOLUME }}/nginx.conf:/etc/nginx/nginx.conf
+      - {{ NGINX_VOLUME }}/cert:/etc/nginx/cert:ro
+
+  ################
+  ### MARIADB ####
+  ################
+  mariadb:
+    container_name: mariadb
+    image: {{ MARIADB_IMAGE }}
+    restart: always
+    networks:
+      - {{ nextcloud_network }}
+    volumes:
+      - {{ MARIADB_VOLUME }}:/config
+
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ MYSQL_ROOT_PASSWORD }}
+      - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
+      - MYSQL_DATABASE={{ MYSQL_DATABASE }}
+      - MYSQL_USER={{ MYSQL_USER }}
+
+  #################
+  ### NEXTCLOUD ###
+  #################
+  nextcloud:
+    container_name: nextcloud
+    image: {{ NEXTCLOUD_IMAGE }}
+    depends_on:
+      - mariadb
+    restart: always
+    networks:
+      - {{ nextcloud_network }}
+    volumes:
+      - {{ NEXTCLOUD_VOLUME }}:/var/www/html
+    environment:
+      - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
+      - MYSQL_DATABASE={{ MYSQL_DATABASE }}
+      - MYSQL_USER={{ MYSQL_USER }}
+      - MYSQL_HOST=mariadb
+
+  #################
+  ### COLLABORA ###
+  #################
+  collabora:
+    container_name: collabora
+    image: collabora/code:latest-arm64
+    depends_on:
+      - nextcloud
+    restart: always
+    ports:
+      - 9980:9980
+    networks:
+      - {{ nextcloud_network }}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ NGINX_VOLUME }}/cert/lan-crt.pem:/etc/loolwsd/cert.pem:ro
+      - {{ NGINX_VOLUME }}/cert/lan-key.pem:/etc/loolwsd/key.pem:ro
+    environment:
+      - domain=localhost
+      - password=${COLLABORA_PASSWORD}
+      - username=${COLLABORA_USERNAME}
+      - extra_params=--o:ssl.enable=true --o:ssl.termination=true --o:net.post_allow.host=::ffff:172\.18\.0\.[0-9]+ --o:net.post_allow.host=192\.168\.2\.[0-9]+ --o:net.proto=IPv4
