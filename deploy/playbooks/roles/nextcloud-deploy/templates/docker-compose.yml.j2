@@ -9,7 +9,7 @@ services:
   ##############
   nginx:
     container_name: nginx
-    image: {{ NGINX_IMAGE }}
+    image: {{ NGINX_IMAGE }}:{{ NGINX_VERSION }}
     depends_on:
       - nextcloud
     restart: always
@@ -29,7 +29,7 @@ services:
   ################
   mariadb:
     container_name: mariadb
-    image: {{ MARIADB_IMAGE }}
+    image: {{ MARIADB_IMAGE }}:{{ MARIADB_VERSION }}
     restart: always
     networks:
       - {{ nextcloud_network }}
@@ -37,7 +37,6 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - {{ MARIADB_VOLUME }}:/config
-
     environment:
       - MYSQL_ROOT_PASSWORD={{ MYSQL_ROOT_PASSWORD }}
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
@@ -49,7 +48,7 @@ services:
   #################
   nextcloud:
     container_name: nextcloud
-    image: {{ NEXTCLOUD_IMAGE }}
+    image: {{ NEXTCLOUD_IMAGE }}:{{ NEXTCLOUD_VERSION }}
     depends_on:
       - mariadb
     restart: always
@@ -70,7 +69,7 @@ services:
   #################
   collabora:
     container_name: collabora
-    image: {{ COLLABORA_IMAGE }}
+    image: {{ COLLABORA_IMAGE }}:{{ COLLABORA_VERSION }}
     depends_on:
       - nextcloud
     restart: always

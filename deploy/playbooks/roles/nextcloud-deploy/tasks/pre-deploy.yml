@@ -21,28 +21,28 @@
 
 - name: Pull NGINX docker image
   docker_image:
-    name: "{{ NGINX_IMAGE }}"
+    name: "{{ NGINX_IMAGE }}:{{ NGINX_VERSION }}"
     source: pull
     pull:
-      platform: arm
-
-- name: Pull NEXTCLOUD docker image
-  docker_image:
-    name: "{{ NEXTCLOUD_IMAGE }}"
-    source: pull
-    pull:
-      platform: arm
+      platform: arm64
 
 - name: Pull MARIADB docker image
   docker_image:
-    name: "{{ MARIADB_IMAGE }}"
+    name: "{{ MARIADB_IMAGE }}:{{ MARIADB_VERSION }}"
     source: pull
     pull:
-      platform: arm
+      platform: arm64
+
+- name: Pull NEXTCLOUD docker image
+  docker_image:
+    name: "{{ NEXTCLOUD_IMAGE }}:{{ NEXTCLOUD_VERSION }}"
+    source: pull
+    pull:
+      platform: arm64
 
 - name: Pull COLLABORA docker image
   docker_image:
-    name: "{{ COLLABORA_IMAGE }}"
+    name: "{{ COLLABORA_IMAGE }}:{{ COLLABORA_VERSION }}"
     source: pull
     pull:
-      platform: arm
+      platform: arm64

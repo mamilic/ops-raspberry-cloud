@@ -5,8 +5,13 @@ nextcloud_network: "nextcloud_net"
 docker_users: ["pi"]
 NGINX_IMAGE: "nginx"
 MARIADB_IMAGE: "linuxserver/mariadb"
-NEXTCLOUD_IMAGE: "nextcloud:fpm"
-COLLABORA_IMAGE: "collabora/code:latest-arm64"
+NEXTCLOUD_IMAGE: "nextcloud"
+COLLABORA_IMAGE: "collabora/code"
+
+NGINX_VERSION: "1.21.4"
+MARIADB_VERSION: "10.5.13"
+NEXTCLOUD_VERSION: "23.0.0-fpm"
+COLLABORA_VERSION: "21.11.0.6.1"
 
 # MARIADB
 MYSQL_DATABASE: "nextcloud"
