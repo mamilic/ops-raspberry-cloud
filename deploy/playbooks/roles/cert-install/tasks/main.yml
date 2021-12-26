@@ -6,6 +6,12 @@
     path: "{{ NGINX_VOLUME }}/cert"
     state: directory
 
+- name: Copy CA Certificate
+  become: true
+  template:
+    src: cert/ca-chain.cert.pem
+    dest: "{{ NGINX_VOLUME }}/cert/ca-chain.cert.pem"
+
 - name: Copy SSL Certificate
   become: true
   template:
