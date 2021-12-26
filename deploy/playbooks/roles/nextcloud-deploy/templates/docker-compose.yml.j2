@@ -16,6 +16,7 @@ services:
     ports:
       - 443:443
       - 80:80
+      - 9980:9980
     networks:
       - {{ nextcloud_network }}
     volumes:
@@ -33,6 +34,8 @@ services:
     networks:
       - {{ nextcloud_network }}
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ MARIADB_VOLUME }}:/config
 
     environment:
@@ -53,6 +56,8 @@ services:
     networks:
       - {{ nextcloud_network }}
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html
     environment:
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}

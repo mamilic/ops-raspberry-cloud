@@ -1,29 +1,14 @@
 ---
 
-- name: Create MARIADB Volume
+- name: Create MARIADB Storage
   file:
     path: "{{ MARIADB_VOLUME }}"
     state: directory
 
-- name: Create NEXTCLOUD Volume
+- name: Create NEXTCLOUD Storage
   file:
     path: "{{ NEXTCLOUD_VOLUME }}"
     state: directory
-
-- name: Remove Nextcloud Container
-  docker_container:
-    name: nextcloud
-    state: absent
-
-- name: Remove MariaDB Container
-  docker_container:
-    name: mariadb
-    state: absent
-
-- name: Remove Nginx Container
-  docker_container:
-    name: nginx
-    state: absent
 
 - name: Stage Docker Compose File
   template:
@@ -55,9 +40,9 @@
     pull:
       platform: arm
 
-- name: Pull MARIADB docker image
+- name: Pull COLLABORA docker image
   docker_image:
-    name: "{{ MARIADB_IMAGE }}"
+    name: "{{ COLLABORA_IMAGE }}"
     source: pull
     pull:
       platform: arm
