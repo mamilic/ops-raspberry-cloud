@@ -6,6 +6,7 @@ docker_users: ["pi"]
 NGINX_IMAGE: "nginx"
 MARIADB_IMAGE: "linuxserver/mariadb"
 NEXTCLOUD_IMAGE: "nextcloud:fpm"
+COLLABORA_IMAGE: "collabora/code:latest-arm64"
 
 # MARIADB
 MYSQL_DATABASE: "nextcloud"

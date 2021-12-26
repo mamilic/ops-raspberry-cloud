@@ -65,21 +65,25 @@ services:
   #################
   collabora:
     container_name: collabora
-    image: collabora/code:latest-arm64
+    image: {{ COLLABORA_IMAGE }}
     depends_on:
       - nextcloud
     restart: always
-    ports:
-      - 9980:9980
     networks:
       - {{ nextcloud_network }}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - {{ NGINX_VOLUME }}/cert/lan-crt.pem:/etc/loolwsd/cert.pem:ro
-      - {{ NGINX_VOLUME }}/cert/lan-key.pem:/etc/loolwsd/key.pem:ro
+      - {{ NGINX_VOLUME }}/cert/ca-chain.cert.pem:/etc/coolwsd/ca-chain.cert.pem:ro
+      - {{ NGINX_VOLUME }}/cert/lan-crt.pem:/etc/coolwsd/cert.pem:ro
+      - {{ NGINX_VOLUME }}/cert/lan-key.pem:/etc/coolwsd/key.pem:ro
+      - {{ NGINX_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml
     environment:
-      - domain=localhost
+      - DONT_GEN_SSL_CERT=true
+      - domain=cloud.next.lan
       - password=${COLLABORA_PASSWORD}
       - username=${COLLABORA_USERNAME}
-      - extra_params=--o:ssl.enable=true --o:ssl.termination=true --o:net.post_allow.host=::ffff:172\.18\.0\.[0-9]+ --o:net.post_allow.host=192\.168\.2\.[0-9]+ --o:net.proto=IPv4
+      - extra_params=--o:ssl.enable=true
+      #--o:ssl.termination=false --o:net.proto=IPv4 --o:net.post_allow.host[0]=::ffff:172.[0-9]+.[0-9]+.[0-9]+ --o:net.post_allow.host=172\.1[6789]\.[0-9]{1,3}\.[0-9]{1,3} --o:net.post_allow.host=172\.2[0-9]\.[0-9]{1,3}\.[0-9]{1,3} --o:net.post_allow.host=172\.3[01]\.[0-9]{1,3}\.[0-9]{1,3}'
+    extra_hosts:
+      - "cloud.next.lan:192.168.2.192"

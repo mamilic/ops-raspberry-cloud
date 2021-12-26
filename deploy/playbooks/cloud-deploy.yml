@@ -12,6 +12,7 @@
 - name: Deploy Nextcloud Services
   hosts: raspberry_pi
   roles:
+    - collabora-setup
     - nginx-setup
     - nextcloud-deploy
   tags:
