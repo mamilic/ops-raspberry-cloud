@@ -3,6 +3,6 @@
 - name: Copy Configuration File
   become: true
   template:
-    src: coolwsd.xml
+    src: coolwsd.xml.j2
     dest: "{{ NGINX_VOLUME }}/coolwsd.xml"
     follow: yes

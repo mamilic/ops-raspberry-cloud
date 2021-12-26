@@ -3,11 +3,11 @@
 - name: Fetch Docker Install Script
   get_url:
     url: https://get.docker.com
-    dest: /tmp/docker_install.sh
+    dest: "{{ stg_dir }}/docker_install.sh"
 
 - name: Install Docker
   become: true
-  shell: bash /tmp/docker_install.sh
+  shell: bash {{ stg_dir }}/docker_install.sh
 
 - name: Create Docker Group
   become: true
@@ -23,10 +23,6 @@
     append: yes
   with_items: "{{ docker_users }}"
   register: docker_group
-
-- name: DEBUG
-  debug:
-    var: docker_group
 
 - name: Reset ssh connection to allow user changes to affect ansible user
   meta:
