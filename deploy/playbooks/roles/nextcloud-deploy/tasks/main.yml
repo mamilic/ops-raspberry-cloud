@@ -8,6 +8,7 @@
     project_src: "{{ stg_dir }}"
     files:
       - nextcloud-compose.yml
+    recreate: always
   register: nextcloud_deploy
 
 - name: Clean Up
