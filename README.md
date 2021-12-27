@@ -30,6 +30,16 @@ You need to have configured ssh key based auth between your machines in order to
  mv certs/ca/root.crt.pem /etc/coolwsd/ca-chain.cert.pem```
 ```
 
+## Install CA CERT on machine to trust CERT
+First, convert CA pem to crt 
+```
+openssl x509 -outform der -in ca-chain.cert.pem  -out ca-chain.cert.crt                                     ✔ 
+```
+For arch distros copy **ca-chain.cert.crt** into /etc/ca-certificates/trust-source/anchors/, and run
+```
+sudo trust extract-compat
+```
+
 ## Getting started
 Start script with:
 ```
