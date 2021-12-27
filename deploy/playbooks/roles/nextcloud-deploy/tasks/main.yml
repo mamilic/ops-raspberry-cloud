@@ -5,7 +5,7 @@
 
 - name: Deploy Nextcloud Services
   docker_compose:
-    project_src: "{{ stg_dir }}"
+    project_src: "{{ STG_DIR }}"
     files:
       - nextcloud-compose.yml
     recreate: always

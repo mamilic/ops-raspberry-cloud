@@ -2,7 +2,7 @@
 
 - name: Create Stagging Directory
   file:
-    path: "{{ stg_dir }}"
+    path: "{{ STG_DIR }}"
     state: directory
 
 - name: Upgrade Raspberry OS

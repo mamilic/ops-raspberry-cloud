@@ -13,7 +13,7 @@
 - name: Stage Docker Compose File
   template:
     src: docker-compose.yml.j2
-    dest: "{{ stg_dir }}/nextcloud-compose.yml"
+    dest: "{{ STG_DIR }}/nextcloud-compose.yml"
 
 - name: Create Docker Network
   docker_network:
