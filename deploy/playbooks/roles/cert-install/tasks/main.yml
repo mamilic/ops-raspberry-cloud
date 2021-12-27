@@ -1,9 +1,5 @@
 ---
 
-- name: DEBUG
-  debug:
-    var: certs
-
 - name: Copy Certificates
   become: true
   copy:
