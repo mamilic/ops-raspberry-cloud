@@ -2,7 +2,7 @@ STG_DIR: "/tmp/stg"
 NEXTCLOUD_NETWORK: "nextcloud_net"
 
 # DOCKER
-docker_users: ["pi"]
+docker_users: ["{{ ansible_user_id }}"]
 NGINX_IMAGE: "nginx"
 MARIADB_IMAGE: "mariadb"
 NEXTCLOUD_IMAGE: "nextcloud"
