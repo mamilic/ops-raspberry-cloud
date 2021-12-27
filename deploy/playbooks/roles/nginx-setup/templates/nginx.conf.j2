@@ -46,8 +46,8 @@ http {
         listen       9980 ssl;
         server_name  localhost;
 
-        ssl_certificate /etc/nginx/cert/lan-crt.pem;
-        ssl_certificate_key /etc/nginx/cert/lan-key.pem;
+        ssl_certificate {{ CERT_PATH }}/cert.pem;
+        ssl_certificate_key {{ CERT_PATH }}/key.pem;
 
         # static files
         location ^~ /browser {
@@ -102,9 +102,9 @@ http {
 
         server_name localhost;
 
-        ssl_certificate /etc/nginx/cert/lan-crt.pem;
-        ssl_certificate_key /etc/nginx/cert/lan-key.pem;
-        ssl_dhparam /etc/nginx/cert/dhparam.pem;
+        ssl_certificate {{ CERT_PATH }}/cert.pem;
+        ssl_certificate_key {{ CERT_PATH }}/key.pem;
+        ssl_dhparam {{ CERT_PATH }}/dhparam.pem;
 
         # HTTP
         #listen 80;

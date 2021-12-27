@@ -1,31 +1,19 @@
 ---
 
-- name: Create Cert Directory
-  become: true
-  file:
-    path: "{{ NGINX_VOLUME }}/cert"
-    state: directory
+- name: DEBUG
+  debug:
+    var: certs
 
-- name: Copy CA Certificate
-  become: true
-  template:
-    src: cert/ca-chain.cert.pem
-    dest: "{{ NGINX_VOLUME }}/cert/ca-chain.cert.pem"
-
-- name: Copy SSL Certificate
-  become: true
-  template:
-    src: cert/lan-crt.pem
-    dest: "{{ NGINX_VOLUME }}/cert/lan-crt.pem"
-
-- name: Copy SSL Key
+- name: Copy Certificates
   become: true
   copy:
-    src: cert/lan-key.pem
-    dest: "{{ NGINX_VOLUME }}/cert/lan-key.pem"
-
-- name: Copy dhparam
-  become: true
-  copy:
-    src: cert/dhparam.pem
-    dest: "{{ NGINX_VOLUME }}/cert/dhparam.pem"
+    src: "{{ item.src }}"
+    dest: "{{ CERT_PATH }}"
+    owner: root
+    group: root
+    mode: "0644"
+  with_items:
+    - src: cert/ca-chain.cert.pem
+    - src: cert/cert.pem
+    - src: cert/key.pem
+    - src: cert/dhparam.pem

@@ -18,6 +18,9 @@ MARIADB_VOLUME: "{{ ansible_env.HOME }}/mariadb"
 NEXTCLOUD_VOLUME: "{{ ansible_env.HOME }}/nextcloud"
 NGINX_VOLUME: "{{ ansible_env.HOME }}/nginx"
 
+# CERT
+CERT_PATH: "/etc/ssl/certs"
+
 ###############
 ## ENCRYPTED ##
 ###############
