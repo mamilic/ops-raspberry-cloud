@@ -33,7 +33,7 @@ You need to have configured ssh key based auth between your machines in order to
 ## Getting started
 Start script with:
 ```
-ansible-playbook -i deploy/playbooks/inventories/raspberry-pi deploy/playbooks/cloud-deploy.yml --verbose 
+ansible-playbook -i deploy/playbooks/inventories/raspberry-pi deploy/playbooks/cloud-deploy.yml --verbose --ask-vault-pass
 ```
 
 ## Nextcloud WEB Configuration
