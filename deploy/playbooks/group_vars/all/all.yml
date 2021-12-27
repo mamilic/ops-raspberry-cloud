@@ -1,10 +1,10 @@
 stg_dir: "/tmp/stg"
-nextcloud_network: "nextcloud_net"
+NEXTCLOUD_NETWORK: "nextcloud_net"
 
 # DOCKER
 docker_users: ["pi"]
 NGINX_IMAGE: "nginx"
-MARIADB_IMAGE: "linuxserver/mariadb"
+MARIADB_IMAGE: "mariadb"
 NEXTCLOUD_IMAGE: "nextcloud"
 COLLABORA_IMAGE: "collabora/code"
 
@@ -26,4 +26,4 @@ NGINX_VOLUME: "{{ ansible_env.HOME }}/nginx"
 
 # COLLABORA
 COLLABORA_PASSWORD: "asdf"
-COLLABORA_USERNAME: "asdf"
+COLLABORA_USERNAME: "marko"
