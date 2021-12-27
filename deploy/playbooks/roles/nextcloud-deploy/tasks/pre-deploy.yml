@@ -17,7 +17,7 @@
 
 - name: Create Docker Network
   docker_network:
-    name: "{{ nextcloud_network }}"
+    name: "{{ NEXTCLOUD_NETWORK }}"
 
 - name: Pull NGINX docker image
   docker_image:
