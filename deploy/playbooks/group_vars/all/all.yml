@@ -3,6 +3,11 @@ NEXTCLOUD_NETWORK: "nextcloud_net"
 
 # DOCKER
 docker_users: ["{{ ansible_user_id }}"]
+
+PORTS:
+  NEXTCLOUD: 443
+  COLLABORA: 9980
+
 NGINX_IMAGE: "nginx"
 MARIADB_IMAGE: "mariadb"
 NEXTCLOUD_IMAGE: "nextcloud"

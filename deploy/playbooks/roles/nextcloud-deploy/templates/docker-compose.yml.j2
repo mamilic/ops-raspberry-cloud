@@ -14,9 +14,9 @@ services:
       - nextcloud
     restart: always
     ports:
-      - 443:443
+      - {{ PORTS.NEXTCLOUD }}:{{ PORTS.NEXTCLOUD }}
       - 80:80
-      - 9980:9980
+      - {{ PORTS.COLLABORA }}:{{ PORTS.COLLABORA }}
     networks:
       - {{ NEXTCLOUD_NETWORK }}
     volumes:
