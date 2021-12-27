@@ -1,4 +1,4 @@
-stg_dir: "/tmp/stg"
+STG_DIR: "/tmp/stg"
 NEXTCLOUD_NETWORK: "nextcloud_net"
 
 # DOCKER
@@ -13,17 +13,21 @@ MARIADB_VERSION: "10.5.13"
 NEXTCLOUD_VERSION: "23.0.0-fpm"
 COLLABORA_VERSION: "21.11.0.6.1"
 
-# MARIADB
-MYSQL_DATABASE: "nextcloud"
-MYSQL_USER: "nextcloud"
-MYSQL_ROOT_PASSWORD: "SB'{~=Cb7NdfA:M="
-MYSQL_PASSWORD: "SB'{~=Cb7NdfA:M="
-
 # VOLUMES
 MARIADB_VOLUME: "{{ ansible_env.HOME }}/mariadb"
 NEXTCLOUD_VOLUME: "{{ ansible_env.HOME }}/nextcloud"
 NGINX_VOLUME: "{{ ansible_env.HOME }}/nginx"
 
+###############
+## ENCRYPTED ##
+###############
+
+# MARIADB
+#MYSQL_DATABASE: ""
+#MYSQL_USER: ""
+#MYSQL_ROOT_PASSWORD: ""
+#MYSQL_PASSWORD: ""
+
 # COLLABORA
-COLLABORA_PASSWORD: "asdf"
-COLLABORA_USERNAME: "marko"
+#COLLABORA_PASSWORD: ""
+#COLLABORA_USERNAME: ""
