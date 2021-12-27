@@ -21,7 +21,7 @@ services:
       - {{ NEXTCLOUD_NETWORK }}
     volumes:
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html:ro
-      - {{ NGINX_VOLUME }}/nginx.conf:/etc/nginx/nginx.conf
+      - {{ NGINX_VOLUME }}/nginx.conf:/etc/nginx/nginx.conf:ro
       - {{ NGINX_VOLUME }}/cert:/etc/nginx/cert:ro
 
   ################
@@ -37,7 +37,7 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - {{ MARIADB_VOLUME }}:/config
+      - {{ MARIADB_VOLUME }}:/config:ro
     environment:
       - MYSQL_ROOT_PASSWORD={{ MYSQL_ROOT_PASSWORD }}
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
@@ -83,7 +83,7 @@ services:
       - {{ NGINX_VOLUME }}/cert/ca-chain.cert.pem:/etc/coolwsd/ca-chain.cert.pem:ro
       - {{ NGINX_VOLUME }}/cert/lan-crt.pem:/etc/coolwsd/cert.pem:ro
       - {{ NGINX_VOLUME }}/cert/lan-key.pem:/etc/coolwsd/key.pem:ro
-      - {{ NGINX_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml
+      - {{ NGINX_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml:ro
     environment:
       - DONT_GEN_SSL_CERT=true
       - domain=cloud.next.lan
