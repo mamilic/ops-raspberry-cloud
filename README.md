@@ -26,7 +26,7 @@ You need to have configured ssh key based auth between your machines in order to
  openssl genrsa -out private/ca.key.pem 2048
  
  # CREATE ROOT CA cert, this is also ca-chain.cert.pem
- openssl req -subj "/C=SR/ST=Macva/L=Sabac/O=Cloud/CN=Milic" \
+ openssl req -subj "/C=SR/ST=Macva/L=Sabac/O=Milic/CN=Milic Certification Authority" \
       -key private/ca.key.pem \
       -new -x509 -days 7300 -sha256 -extensions v3_ca \
       -out certs/ca.cert.pem

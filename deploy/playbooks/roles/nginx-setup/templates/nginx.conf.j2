@@ -39,62 +39,9 @@ http {
         return 301 https://$host$request_uri;
     }
 
-    ######################################
-    ### COLLABORA REVERSE PROXY SERVER ###
-    ######################################
-    server {
-        listen       9980 ssl;
-        server_name  localhost;
-
-        ssl_certificate {{ CERT_PATH }}/cert.pem;
-        ssl_certificate_key {{ CERT_PATH }}/key.pem;
-
-        # static files
-        location ^~ /browser {
-            proxy_pass  https://collabora:9980;
-            proxy_set_header Host $http_host;
-        }
-
-        # WOPI discovery URL
-        location ^~ /hosting/discovery {
-            proxy_pass  https://collabora:9980;
-            proxy_set_header Host $http_host;
-        }
-
-        # Capabilities
-        location ^~ /hosting/capabilities {
-            proxy_pass  https://collabora:9980;
-            proxy_set_header Host $http_host;
-        }
-
-        # main websocket
-        location ~ ^/(c|l)ool/(.*)/ws$ {
-            proxy_pass  https://collabora:9980;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
-            proxy_set_header Host $http_host;
-            proxy_read_timeout 36000s;
-        }
-
-        # download, presentation and image upload
-        location ~ ^/(c|l)ool {
-            proxy_pass  https://collabora:9980;
-            proxy_set_header Host $http_host;
-        }
-
-        # Admin Console websocket
-        location ^~ /cool/adminws {
-            proxy_pass  https://collabora:9980;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
-            proxy_set_header Host $http_host;
-            proxy_read_timeout 36000s;
-        }
-    }
-
-    ########################
-    ### NEXTCLOUD SERVER ###
-    ########################
+    ##############
+    ### SERVER ###
+    ##############
     server {
         # HTTPS Configuration
         listen 443 http2 ssl;
@@ -160,6 +107,58 @@ http {
         # always provides the desired behaviour.
         index index.php index.html /index.php$request_uri;
 
+
+        ##################
+        ### COLLABORA  ###
+        ##################
+
+        # Static Files
+        location ^~ /browser {
+            proxy_pass  https://collabora:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # WOPI Discovery URL
+        location ^~ /hosting/discovery {
+            proxy_pass  https://collabora:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # Capabilities
+        location ^~ /hosting/capabilities {
+            proxy_pass  https://collabora:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # Main Websocket
+        location ~ /cool/(.*)/ws$ {
+            proxy_pass  https://collabora:9980;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_set_header Host $http_host;
+            proxy_read_timeout 36000s;
+        }
+
+        # download, presentation and image upload
+        location ~ ^/(c|l)ool {
+            proxy_pass  https://collabora:9980;
+            proxy_set_header Host $http_host;
+        }
+
+        # Admin Console Websocket
+        location ^~ /cool/adminws {
+            proxy_pass  https://collabora:9980;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_set_header Host $http_host;
+            proxy_read_timeout 36000s;
+        }
+
+
+        ##################
+        ### NEXTCLOUD  ###
+        ##################
+
         # Rule borrowed from `.htaccess` to handle Microsoft DAV clients
         location = / {
             if ( $http_user_agent ~ ^DavClnt ) {
@@ -202,7 +201,7 @@ http {
         # to the URI, resulting in a HTTP 500 error response.
         location ~ \.php(?:$|/) {
             # Required for legacy support
-            rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
+            rewrite ^/(?!cool|index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
 
             fastcgi_split_path_info ^(.+?\.php)(/.*)$;
             set $path_info $fastcgi_path_info;
