@@ -15,29 +15,59 @@ You need to have configured ssh key based auth between your machines in order to
 
 ## Generate SSL Certificates 
 ```
- mkdir -p /opt/ssl/
- cd /opt/ssl/
- mkdir -p certs/ca
- openssl genrsa -out certs/ca/root.key.pem 2048
- openssl req -x509 -new -nodes -key certs/ca/root.key.pem -days 9131 -out certs/ca/root.crt.pem -subj "/C=DE/ST=BW/L=Stuttgart/O=Dummy Authority/CN=Dummy Authority"
- mkdir -p certs/{servers,tmp}
- mkdir -p "certs/servers/hostname.example.com"
- openssl genrsa -out "certs/servers/hostname.example.com/privkey.pem" 2048 -key "certs/servers/hostname.example.com/privkey.pem"
- openssl req -key "certs/servers/hostname.example.com/privkey.pem" -new -sha256 -out "certs/tmp/hostname.example.com.csr.pem" -subj "/C=DE/ST=BW/L=Stuttgart/O=Dummy Authority/CN=hostname.example.com"
- openssl x509 -req -in certs/tmp/hostname.example.com.csr.pem -CA certs/ca/root.crt.pem -CAkey certs/ca/root.key.pem -CAcreateserial -out certs/servers/hostname.example.com/cert.pem -days 9131
- mv certs/servers/hostname.example.com/privkey.pem /etc/coolwsd/key.pem
- mv certs/servers/hostname.example.com/cert.pem /etc/coolwsd/cert.pem
- mv certs/ca/root.crt.pem /etc/coolwsd/ca-chain.cert.pem```
+ mkdir certs csr private
+ touch index.txt
+ echo 1000 > serial
+ 
+ ###############
+ ### ROOT CA ###
+ ###############
+ # CREATE ROOT CA KEY
+ openssl genrsa -out private/ca.key.pem 2048
+ 
+ # CREATE ROOT CA cert, this is also ca-chain.cert.pem
+ openssl req -subj "/C=SR/ST=Macva/L=Sabac/O=Cloud/CN=Milic" \
+      -key private/ca.key.pem \
+      -new -x509 -days 7300 -sha256 -extensions v3_ca \
+      -out certs/ca.cert.pem
+      
+  # SIGN THE CSR WITH ROOT CA
+  openssl x509 -req -days 365 -CA certs/ca.cert.pem -CAkey private/ca.key.pem \
+      -CAcreateserial -CAserial serial -in csr/cloud.next.lan.csr.pem -out certs/cloud.next.lan.cert.pem
+
+ ##############
+ ### SERVER ###
+ ##############
+ # CREATE KEY for SERVER
+ # -aes256 - not working 
+ openssl genrsa -out private/cloud.next.lan.key.pem 2048
+ 
+ # CREATE CSR FOR SERVER
+ # Use the private key to create a certificate signing request (CSR)
+ # For server certificates, the Common Name must be a fully qualified domain name (eg, www.example.com), 
+ # whereas for client certificates it can be any unique identifier (eg, an e-mail address). 
+ # Note that the Common Name cannot be the same as either your root or intermediate certificate.
+ openssl req -config config.conf \
+      -key private/cloud.next.lan.key.pem \
+      -new -sha256 -out csr/cloud.next.lan.csr.pem
+
+ # Convert ROOT CA PEM TO CRT
+ openssl x509 -outform der -in certs/ca.cert.pem -out certs/ca.cert.crt
+ 
+ # UPDATE CA CERT ON ARCH
+ sudo cp certs/ca.cert.crt /etc/ca-certificates/trust-source/anchors/
+ sudo update-ca-trust 
 ```
 
 ## Install CA CERT on machine to trust CERT
 First, convert CA pem to crt 
 ```
-openssl x509 -outform der -in ca-chain.cert.pem  -out ca-chain.cert.crt                                     ✔ 
+ openssl x509 -outform der -in certs/ca.cert.pem -out certs/ca.cert.crt                              
 ```
-For arch distros copy **ca-chain.cert.crt** into /etc/ca-certificates/trust-source/anchors/, and run
+For arch distros copy **ca-chain.cert.crt** into /etc/ca-certificates/trust-source/anchors/
 ```
-sudo trust extract-compat
+ sudo cp certs/ca.cert.crt /etc/ca-certificates/trust-source/anchors/
+ sudo update-ca-trust 
 ```
 
 ## Getting started

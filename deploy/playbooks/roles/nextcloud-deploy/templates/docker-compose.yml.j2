@@ -14,8 +14,8 @@ services:
       - nextcloud
     restart: always
     ports:
-      - {{ PORTS.NEXTCLOUD }}:{{ PORTS.NEXTCLOUD }}
       - 80:80
+      - {{ PORTS.NEXTCLOUD }}:{{ PORTS.NEXTCLOUD }}
       - {{ PORTS.COLLABORA }}:{{ PORTS.COLLABORA }}
     networks:
       - {{ NEXTCLOUD_NETWORK }}
@@ -59,6 +59,7 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html
     environment:
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
@@ -84,7 +85,7 @@ services:
       - {{ NGINX_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml:ro
     environment:
       - DONT_GEN_SSL_CERT=true
-      - domain=cloud.next.lan
+      - domain=nextcloud
       - password={{ COLLABORA_PASSWORD }}
       - username={{ COLLABORA_USERNAME }}
-      - extra_params=--o:ssl.enable=true
+      - extra_params=--o:ssl.enable=true #--o:ssl.cert_file_path={{ CERT_PATH }}/cert.pem --o:ssl.key_file_path={{ CERT_PATH }}/key.pem --o:ssl.ca_file_path={{ CERT_PATH }}/ca-chain.cert.pem
