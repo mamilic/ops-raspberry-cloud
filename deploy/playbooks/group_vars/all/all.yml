@@ -6,7 +6,6 @@ docker_users: ["{{ ansible_user_id }}"]
 
 PORTS:
   NEXTCLOUD: 443
-  COLLABORA: 9980
   WIREGUARD: 51820
 
 NGINX_IMAGE: "nginx"
