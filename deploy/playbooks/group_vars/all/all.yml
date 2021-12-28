@@ -7,6 +7,7 @@ docker_users: ["{{ ansible_user_id }}"]
 PORTS:
   NEXTCLOUD: 443
   COLLABORA: 9980
+  WIREGUARD: 51820
 
 NGINX_IMAGE: "nginx"
 MARIADB_IMAGE: "mariadb"
@@ -22,6 +23,7 @@ COLLABORA_VERSION: "21.11.0.6.1"
 MARIADB_VOLUME: "{{ ansible_env.HOME }}/mariadb"
 NEXTCLOUD_VOLUME: "{{ ansible_env.HOME }}/nextcloud"
 NGINX_VOLUME: "{{ ansible_env.HOME }}/nginx"
+COLLABORA_VOLUME: "{{ ansible_env.HOME }}/collabora"
 
 # CERT
 CERT_PATH: "/etc/ssl/certs"

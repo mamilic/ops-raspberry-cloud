@@ -1,8 +1,13 @@
 ---
 
+- name: Create COLLABORA Volume
+  file:
+    path: "{{ COLLABORA_VOLUME }}"
+    state: directory
+
 - name: Copy Configuration File
   become: true
   template:
     src: coolwsd.xml.j2
-    dest: "{{ NGINX_VOLUME }}/coolwsd.xml"
+    dest: "{{ COLLABORA_VOLUME }}/coolwsd.xml"
     follow: yes

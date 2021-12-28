@@ -82,10 +82,10 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
-      - {{ NGINX_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml:ro
+      - {{ COLLABORA_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml:ro
     environment:
       - DONT_GEN_SSL_CERT=true
       - domain=nextcloud
       - password={{ COLLABORA_PASSWORD }}
       - username={{ COLLABORA_USERNAME }}
-      - extra_params=--o:ssl.enable=true #--o:ssl.cert_file_path={{ CERT_PATH }}/cert.pem --o:ssl.key_file_path={{ CERT_PATH }}/key.pem --o:ssl.ca_file_path={{ CERT_PATH }}/ca-chain.cert.pem
+      - extra_params=--o:ssl.enable=true
