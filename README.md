@@ -53,10 +53,6 @@ You need to have configured ssh key based auth between your machines in order to
 
  # Convert ROOT CA PEM TO CRT
  openssl x509 -outform der -in certs/ca.cert.pem -out certs/ca.cert.crt
- 
- # UPDATE CA CERT ON ARCH
- sudo cp certs/ca.cert.crt /etc/ca-certificates/trust-source/anchors/
- sudo update-ca-trust 
 ```
 
 ## Install CA CERT on machine to trust CERT
@@ -74,6 +70,13 @@ For arch distros copy **ca-chain.cert.crt** into /etc/ca-certificates/trust-sour
 Start script with:
 ```
 ansible-playbook -i deploy/playbooks/inventories/raspberry-pi deploy/playbooks/cloud-deploy.yml --verbose --ask-vault-pass
+```
+
+## ADD ROOT CA TO NEXTCLOUD
+```
+sudo nano nextcloud/resources/config/ca-bundle.crt
+
+#Apped to the end of the file your ROOT CA pem 
 ```
 
 ## Nextcloud WEB Configuration
