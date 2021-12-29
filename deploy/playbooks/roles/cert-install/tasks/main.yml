@@ -1,7 +1,6 @@
 ---
 
 - name: Copy Certificates
-  become: true
   copy:
     src: "{{ item.src }}"
     dest: "{{ CERT_PATH }}"
