@@ -91,6 +91,7 @@ services:
   #############
   redis:
     image: {{ REDIS_IMAGE }}:{{ REDIS_VERSION }}
+    command: --loglevel {{ LOGGING_LEVEL_REDIS_VALUES[LOGGING_LEVEL_NUMERIC] }}
     restart: always
     networks:
       - {{ NEXTCLOUD_NETWORK }}

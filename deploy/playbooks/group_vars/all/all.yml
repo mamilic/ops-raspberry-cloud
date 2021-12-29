@@ -1,9 +1,10 @@
 # LOGGING
-LOGGING_LEVEL_NUMERIC: 0
+LOGGING_LEVEL_NUMERIC: 3
 
 LOGGING_LEVEL_NGINX_VALUES: ['debug', 'info', 'warn', 'error']
 LOGGING_LEVEL_NEXTCLOUD_VALUES: ['debug', 'info', 'warn', 'error']     # NUMERIC VALUE IS REQUIRED BY CONFIG FILE
 LOGGING_LEVEL_COLLABORA_VALUES: ['debug', 'information', 'warning', 'error']
+LOGGING_LEVEL_REDIS_VALUES: ['debug', 'verbose', 'notice', 'warning']
 
 STG_DIR: "/tmp/stg"
 
