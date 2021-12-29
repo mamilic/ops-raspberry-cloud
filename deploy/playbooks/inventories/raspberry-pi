@@ -1,2 +1,5 @@
 [raspberry_pi]
-192.168.2.192
+cloud.next.lan ansible_host=192.168.2.192
+
+[raspberry_pi:vars]
+ansible_user=pi
