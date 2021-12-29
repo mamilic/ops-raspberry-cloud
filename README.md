@@ -1,6 +1,7 @@
 # raspberry-cloud
 
-
+### TODO
+- [ ] Improve folder permissions, Remove become:true where not necessary
 
 ## Introduction
 

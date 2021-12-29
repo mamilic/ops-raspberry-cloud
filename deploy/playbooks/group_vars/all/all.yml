@@ -1,21 +1,30 @@
+# LOGGING
+LOGGING_LEVEL_NUMERIC: 0
+
+LOGGING_LEVEL_NGINX_VALUES: ['debug', 'info', 'warn', 'error']
+LOGGING_LEVEL_NEXTCLOUD_VALUES: ['debug', 'info', 'warn', 'error']     # NUMERIC VALUE IS REQUIRED BY CONFIG FILE
+LOGGING_LEVEL_COLLABORA_VALUES: ['debug', 'information', 'warning', 'error']
+
 STG_DIR: "/tmp/stg"
-NEXTCLOUD_NETWORK: "nextcloud_net"
 
 # DOCKER
 docker_users: ["{{ ansible_user_id }}"]
 
+NEXTCLOUD_NETWORK: "nextcloud_net"
+
 PORTS:
   NEXTCLOUD: 443
-  WIREGUARD: 51820
 
 NGINX_IMAGE: "nginx"
+REDIS_IMAGE: "redis"
 MARIADB_IMAGE: "mariadb"
 NEXTCLOUD_IMAGE: "nextcloud"
 COLLABORA_IMAGE: "collabora/code"
 
-NGINX_VERSION: "1.21.4"
+NGINX_VERSION: "1.20.2-alpine"
+REDIS_VERSION: "alpine3.15"
 MARIADB_VERSION: "10.5.13"
-NEXTCLOUD_VERSION: "23.0.0-fpm"
+NEXTCLOUD_VERSION: "23.0.0-fpm-alpine"
 COLLABORA_VERSION: "21.11.0.6.1"
 
 # VOLUMES
