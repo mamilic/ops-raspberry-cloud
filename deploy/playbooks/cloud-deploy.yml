@@ -16,6 +16,7 @@
   roles:
     - collabora-setup
     - nginx-setup
+    - nextcloud-setup
     - nextcloud-deploy
   tags:
     - deploy
