@@ -63,8 +63,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html
-      - {{ NEXTCLOUD_VOLUME }}/config.php:/usr/local/etc/php/conf.d/www.conf
-      - {{ NEXTCLOUD_VOLUME }}/docker-php-ext-opcache.ini:/usr/local/etc/php/conf.d/nextcloud-opcache.ini
+      - {{ NEXTCLOUD_VOLUME }}/php-fpm.conf:/etc/php-fpm.d/php-fpm.conf
+      - {{ NEXTCLOUD_VOLUME }}/op-cache.conf:/usr/local/etc/php/conf.d/php.ini
     environment:
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
       - MYSQL_DATABASE={{ MYSQL_DATABASE }}

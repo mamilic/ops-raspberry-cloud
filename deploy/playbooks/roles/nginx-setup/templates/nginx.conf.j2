@@ -1,4 +1,4 @@
-worker_processes 2;
+worker_processes 12;
 
 # LOGGING LEVEL
 error_log  /var/log/nginx/error.log {{ LOGGING_LEVEL_NUMERIC is defined | ternary(LOGGING_LEVEL_NGINX_VALUES[LOGGING_LEVEL_NUMERIC], 'error') }};
@@ -7,7 +7,7 @@ pid        /var/run/nginx.pid;
 
 
 events {
-    worker_connections  1024;
+    worker_connections  4096;
 }
 
 

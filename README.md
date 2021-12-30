@@ -114,3 +114,9 @@ In order to backup folder from remote server use following command:
 ```
 rsync -a cloud.next.lan:/home/pi/nextcloud ~/ --info=progress2
 ```
+
+## Performance Tuning NGINX
+Run this command to find out requests per minute
+```
+ab -c 40 -n 50000  https://cloud.next.lan/ | grep "per second"
+```
