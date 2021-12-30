@@ -26,10 +26,6 @@
     pull:
       platform: arm64
 
-- name: DEBUG
-  debug:
-    var: ansible_userspace_architecture
-
 - name: Pull MARIADB Docker Image
   docker_image:
     name: "{{ MARIADB_IMAGE }}:{{ MARIADB_VERSION }}"
