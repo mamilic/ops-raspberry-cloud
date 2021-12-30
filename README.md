@@ -83,3 +83,9 @@ sudo nano nextcloud/resources/config/ca-bundle.crt
 ## Nextcloud WEB Configuration
 In order to connect Collabora with Nextcloud you need to enable Collabora Online APP,
 and then setup connection to Collabora in Setting->Office, set URL https://RASPBERRY_IP:9980
+
+## Backup Data
+In order to backup folder from remote server use following command:
+```
+rsync -a cloud.next.lan:/home/pi/nextcloud ~/ --info=progress2
+```
