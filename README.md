@@ -56,6 +56,31 @@ You need to have configured ssh key based auth between your machines in order to
  openssl x509 -outform der -in certs/ca.cert.pem -out certs/ca.cert.crt
 ```
 
+config.conf
+```
+[req]
+distinguished_name  = req_distinguished_name
+prompt              = no
+string_mask         = utf8only
+ 
+[req_distinguished_name]
+C                   = 
+ST                  = 
+L                   = 
+O                   = 
+OU                  = 
+CN                  = cloud.next.lan
+ 
+[v3_req]
+keyUsage            = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage    = serverAuth
+subjectAltName      = @alt_names
+
+[alt_names]
+DNS.5				= cloud.next.lan
+IP.1                = 192.168.x.x
+```
+
 ## Install CA CERT on machine to trust CERT
 First, convert CA pem to crt 
 ```
