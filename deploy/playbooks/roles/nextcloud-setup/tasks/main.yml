@@ -4,12 +4,12 @@
   become: true
   template:
     src: op-cache.conf.j2
-    dest: "{{ COLLABORA_VOLUME }}/op-cache.conf"
+    dest: "{{ NEXTCLOUD_VOLUME }}/op-cache.conf"
     follow: yes
 
 - name: Copy PHP-FPM Configuration File
   become: true
   template:
     src: php-fpm.conf.j2
-    dest: "{{ COLLABORA_VOLUME }}/php-fpm.conf"
+    dest: "{{ NEXTCLOUD_VOLUME }}/php-fpm.conf"
     follow: yes
