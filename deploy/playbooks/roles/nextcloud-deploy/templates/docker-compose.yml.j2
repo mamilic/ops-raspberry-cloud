@@ -69,7 +69,8 @@ services:
       - MYSQL_USER={{ MYSQL_USER }}
       - MYSQL_HOST=mariadb
       - REDIS_HOST=redis
-
+    healthcheck:
+        test: "curl -ksS https://nginx:{{ PORTS.NEXTCLOUD }}/ocs/v2.php/apps/serverinfo/api/v1/info?format=json"
 
   ######################
   ### NEXTCLOUD-CRON ###
