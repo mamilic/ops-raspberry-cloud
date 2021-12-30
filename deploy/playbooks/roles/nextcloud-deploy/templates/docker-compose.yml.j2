@@ -76,6 +76,7 @@ services:
   ### NEXTCLOUD-CRON ###
   ######################
   nextcloud-cron:
+    container_name: nextcloud-cron
     image: {{ NEXTCLOUD_IMAGE }}:{{ NEXTCLOUD_VERSION }}
     restart: always
     networks:
@@ -91,6 +92,7 @@ services:
   ### REDIS ###
   #############
   redis:
+    container_name: redis
     image: {{ REDIS_IMAGE }}:{{ REDIS_VERSION }}
     command: --loglevel {{ LOGGING_LEVEL_REDIS_VALUES[LOGGING_LEVEL_NUMERIC] }}
     restart: always
