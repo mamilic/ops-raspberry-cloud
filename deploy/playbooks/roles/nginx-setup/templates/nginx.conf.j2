@@ -34,6 +34,11 @@ http {
 
     proxy_request_buffering off;
 
+    # UPSTREAM PHP TIMEOUT
+    fastcgi_read_timeout 36000s;
+    fastcgi_send_timeout 36000s;
+    fastcgi_connect_timeout 36000s;
+
     sendfile        on;
     #tcp_nopush     on;
 
