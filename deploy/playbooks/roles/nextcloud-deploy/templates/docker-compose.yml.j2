@@ -63,6 +63,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html
+      - {{ NEXTCLOUD_VOLUME }}/config.php:/usr/local/etc/php/conf.d/www.conf
+      - {{ NEXTCLOUD_VOLUME }}/docker-php-ext-opcache.ini:/usr/local/etc/php/conf.d/nextcloud-opcache.ini
     environment:
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
       - MYSQL_DATABASE={{ MYSQL_DATABASE }}
@@ -127,3 +129,5 @@ services:
       - password={{ COLLABORA_PASSWORD }}
       - username={{ COLLABORA_USERNAME }}
       - extra_params=--o:ssl.enable=true
+      - dictionaries=en_GB
+      - server_name=cloud.next.lan
