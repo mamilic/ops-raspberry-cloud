@@ -31,6 +31,10 @@ services:
     container_name: mariadb
     image: {{ MARIADB_IMAGE }}:{{ MARIADB_VERSION }}
     command: --transaction-isolation=READ-COMMITTED
+        --innodb-buffer-pool-size=1024M
+        --innodb-buffer-pool-instances=8
+        --innodb-buffer-pool-chunk-size=128M
+        --join-buffer-size=256K
     restart: always
     networks:
       - {{ NEXTCLOUD_NETWORK }}
