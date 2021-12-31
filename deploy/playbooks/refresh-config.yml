@@ -1,0 +1,20 @@
+---
+
+- name: Copy Configs
+  hosts: raspberry_pi
+  roles:
+    - collabora-setup
+    - nginx-setup
+    - nextcloud-setup
+
+- name: Restart Docker Containers
+  hosts: raspberry_pi
+  tasks:
+    - name: Restart Docker Containers
+      docker_container:
+        name: "{{ item }}"
+        state: started
+        restart: yes
+      loop:
+        - "{{ NGINX_IMAGE }}"
+        - "{{ NEXTCLOUD_IMAGE }}"

@@ -5,7 +5,7 @@
     path: "{{ COLLABORA_VOLUME }}"
     state: directory
 
-- name: Copy Configuration File
+- name: Copy Coolwsd Configuration File
   become: true
   template:
     src: coolwsd.xml.j2
