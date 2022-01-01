@@ -120,3 +120,20 @@ Run this command to find out requests per minute
 ```
 ab -c 40 -n 50000  https://cloud.next.lan/ | grep "per second"
 ```
+
+## Performance Tuning NEXTCLOUD
+Chunk upload size:
+```
+# Log into docker container
+docker exec -it c0c532ab9700 /bin/sh
+
+# Connect to DB
+mysql -u nextcloud -p
+
+# Select Database
+use nextcloud;
+
+# Insert or update row, chunk size value is in bytes
+# Please take into consideration specs of your Router, as it can cause bottleneck
+update oc_appconfig set configvalue = 20971520 where configkey like 'max_chunk_size';
+```

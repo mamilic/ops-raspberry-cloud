@@ -1,3 +1,5 @@
+version: "3.8"
+
 networks:
   {{ NEXTCLOUD_NETWORK }}:
         external: true
@@ -8,8 +10,11 @@ services:
   ### NGINX ####
   ##############
   nginx:
-    container_name: nginx
     image: {{ NGINX_IMAGE }}:{{ NGINX_VERSION }}
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
     depends_on:
       - nextcloud
     restart: always
@@ -28,7 +33,6 @@ services:
   ### MARIADB ####
   ################
   mariadb:
-    container_name: mariadb
     image: {{ MARIADB_IMAGE }}:{{ MARIADB_VERSION }}
     command: --transaction-isolation=READ-COMMITTED
         --innodb-buffer-pool-size=1024M
@@ -54,8 +58,11 @@ services:
   ### NEXTCLOUD ###
   #################
   nextcloud:
-    container_name: nextcloud
     image: {{ NEXTCLOUD_IMAGE }}:{{ NEXTCLOUD_VERSION }}
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
     depends_on:
       - mariadb
       - redis
@@ -75,14 +82,11 @@ services:
       - MYSQL_USER={{ MYSQL_USER }}
       - MYSQL_HOST=mariadb
       - REDIS_HOST=redis
-    healthcheck:
-        test: "curl -ksS https://nginx:{{ PORTS.NEXTCLOUD }}/ocs/v2.php/apps/serverinfo/api/v1/info?format=json"
 
   ######################
   ### NEXTCLOUD-CRON ###
   ######################
   nextcloud-cron:
-    container_name: nextcloud-cron
     image: {{ NEXTCLOUD_IMAGE }}:{{ NEXTCLOUD_VERSION }}
     restart: always
     networks:
@@ -98,7 +102,6 @@ services:
   ### REDIS ###
   #############
   redis:
-    container_name: redis
     image: {{ REDIS_IMAGE }}:{{ REDIS_VERSION }}
     command: --loglevel {{ LOGGING_LEVEL_REDIS_VALUES[LOGGING_LEVEL_NUMERIC] }}
     restart: always
@@ -115,7 +118,6 @@ services:
   ### COLLABORA ###
   #################
   collabora:
-    container_name: collabora
     image: {{ COLLABORA_IMAGE }}:{{ COLLABORA_VERSION }}
     depends_on:
       - nextcloud

@@ -1,4 +1,10 @@
+# you must set worker processes based on your CPU cores, nginx does not benefit from setting more than that
 worker_processes 8;
+
+# number of file descriptors used for nginx
+# the limit for the maximum FDs on the server is usually set by the OS.
+# if you don't set FD's then OS settings will be used which is by default 2000
+worker_rlimit_nofile 100000;
 
 # LOGGING LEVEL
 error_log  /var/log/nginx/error.log {{ LOGGING_LEVEL_NUMERIC is defined | ternary(LOGGING_LEVEL_NGINX_VALUES[LOGGING_LEVEL_NUMERIC], 'error') }};
@@ -7,7 +13,7 @@ pid        /var/run/nginx.pid;
 
 
 events {
-    worker_connections  2048;
+    worker_connections  4000;
 }
 
 
@@ -24,8 +30,9 @@ http {
 
     access_log  off;
 
-    # TUNE PERFORMANCE
+    # don't buffer data sent, good for small data bursts in real time
     tcp_nodelay on;
+    # send headers in one piece, it is better than sending them one by one
     tcp_nopush on;
 
     # Optimize session cache
@@ -67,8 +74,8 @@ http {
     ##############
     server {
         # HTTPS Configuration
-        listen 443 http2 ssl;
-        listen [::]:443 http2 ssl;
+        listen 443 ssl;
+        listen [::]:443 ssl;
 
         server_name cloud.next.lan;
 

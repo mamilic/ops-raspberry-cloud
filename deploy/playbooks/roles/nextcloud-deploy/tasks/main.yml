@@ -4,12 +4,11 @@
   import_tasks: pre-deploy.yml
 
 - name: Deploy Nextcloud Services
-  docker_compose:
-    project_src: "{{ STG_DIR }}"
-    files:
-      - nextcloud-compose.yml
-    recreate: always
-  register: nextcloud_deploy
+  docker_stack:
+    state: present
+    name: nextcloud
+    compose:
+      - "{{ STG_DIR }}/nextcloud-compose.yml"
 
 - name: Clean Up
   import_tasks: post-deploy.yml
