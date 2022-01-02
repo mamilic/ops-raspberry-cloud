@@ -1,5 +1,10 @@
 ---
 
+- name: Create NEXTCLOUD Volume
+  file:
+    path: "{{ NEXTCLOUD_VOLUME }}"
+    state: directory
+
 - name: Copy OP-CACHE Configuration File
   become: true
   template:

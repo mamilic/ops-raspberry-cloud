@@ -137,3 +137,8 @@ use nextcloud;
 # Please take into consideration specs of your Router, as it can cause bottleneck
 update oc_appconfig set configvalue = 20971520 where configkey like 'max_chunk_size';
 ```
+
+## Delete failed partial uploads
+```
+find /path-to/nextcloud -type f -iname \*.part -delete
+```
