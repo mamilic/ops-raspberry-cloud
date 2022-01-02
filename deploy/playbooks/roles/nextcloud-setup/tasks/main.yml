@@ -3,6 +3,7 @@
 - name: Create NEXTCLOUD Volume
   file:
     path: "{{ NEXTCLOUD_VOLUME }}"
+    group: www-data
     state: directory
 
 - name: Copy OP-CACHE Configuration File
@@ -11,7 +12,7 @@
     src: op-cache.conf.j2
     dest: "{{ NEXTCLOUD_VOLUME }}/op-cache.conf"
     owner: www-data
-    group: root
+    group: www-data
     follow: yes
 
 - name: Copy PHP-FPM Configuration File
@@ -20,5 +21,5 @@
     src: php-fpm.conf.j2
     dest: "{{ NEXTCLOUD_VOLUME }}/php-fpm.conf"
     owner: www-data
-    group: root
+    group: www-data
     follow: yes

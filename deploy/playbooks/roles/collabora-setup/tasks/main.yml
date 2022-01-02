@@ -3,6 +3,7 @@
 - name: Create COLLABORA Volume
   file:
     path: "{{ COLLABORA_VOLUME }}"
+    group: www-data
     state: directory
 
 - name: Copy Coolwsd Configuration File
@@ -10,4 +11,6 @@
   template:
     src: coolwsd.xml.j2
     dest: "{{ COLLABORA_VOLUME }}/coolwsd.xml"
+    owner: www-data
+    group: www-data
     follow: yes
