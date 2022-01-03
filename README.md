@@ -1,8 +1,5 @@
 # raspberry-cloud
 
-### TODO
-- [ ] Improve folder permissions, Remove become:true where not necessary
-
 ## Introduction
 
 This is ansible script for nextcloud deployment on **raspberrypi 4** with following services:
