@@ -124,16 +124,16 @@ services:
     restart: always
     networks:
       - {{ NEXTCLOUD_NETWORK }}
+    cap_add:
+      - MKNOD
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
-      - {{ COLLABORA_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml:ro
     environment:
       - DONT_GEN_SSL_CERT=true
-      - domain=nextcloud
+      - domain=cloud.next.lan
       - password={{ COLLABORA_PASSWORD }}
       - username={{ COLLABORA_USERNAME }}
-      - extra_params=--o:ssl.enable=true
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
       - dictionaries=en_GB
       - server_name=cloud.next.lan

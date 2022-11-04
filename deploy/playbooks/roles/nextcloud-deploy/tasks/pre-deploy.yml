@@ -3,7 +3,7 @@
 - name: Create MARIADB Volume
   file:
     path: "{{ MARIADB_VOLUME }}"
-    group: www-data
+    owner: 999
     state: directory
 
 - name: Stage Docker Compose File

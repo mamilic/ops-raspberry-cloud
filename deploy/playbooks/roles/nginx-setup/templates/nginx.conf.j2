@@ -66,6 +66,8 @@ http {
         listen 80;
         server_name localhost;
 
+        server_tokens off;
+
         return 301 https://$host$request_uri;
     }
 
@@ -78,6 +80,8 @@ http {
         listen [::]:443 ssl;
 
         server_name cloud.next.lan;
+
+        server_tokens off;
 
         rewrite_log  on;
 
@@ -143,7 +147,7 @@ http {
 
         # Static Files
         location ^~ /browser {
-            proxy_pass  https://collabora:9980;
+            proxy_pass  http://collabora:9980;
             proxy_set_header Host $host;
         }
 
@@ -153,19 +157,19 @@ http {
 
         # WOPI Discovery URL
         location ^~ /hosting/discovery {
-            proxy_pass  https://collabora:9980;
+            proxy_pass  http://collabora:9980;
             proxy_set_header Host $host;
         }
 
         # Capabilities
         location ^~ /hosting/capabilities {
-            proxy_pass  https://collabora:9980;
+            proxy_pass  http://collabora:9980;
             proxy_set_header Host $host;
         }
 
         # Main Websocket
         location ~ /cool/(.*)/ws$ {
-            proxy_pass  https://collabora:9980;
+            proxy_pass  http://collabora:9980;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $host;
@@ -174,13 +178,13 @@ http {
 
         # download, presentation and image upload
         location ~ ^/(c|l)ool {
-            proxy_pass  https://collabora:9980;
+            proxy_pass  http://collabora:9980;
             proxy_set_header Host $host;
         }
 
         # Admin Console Websocket
         location ^~ /cool/adminws {
-            proxy_pass  https://collabora:9980;
+            proxy_pass  http://collabora:9980;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
             proxy_set_header Host $host;
@@ -254,10 +258,14 @@ http {
             fastcgi_request_buffering off;
         }
 
-        location ~ \.(?:css|js|svg|gif)$ {
+        location ~ \.(?:css|js|svg|gif|png|jpg|ico|wasm|tflite|map)$ {
             try_files $uri /index.php$request_uri;
             expires 6M;         # Cache-Control policy borrowed from `.htaccess`
             access_log off;     # Optional: Don't log access to assets
+
+            location ~ \.wasm$ {
+                default_type application/wasm;
+            }
         }
 
         location ~ \.woff2?$ {

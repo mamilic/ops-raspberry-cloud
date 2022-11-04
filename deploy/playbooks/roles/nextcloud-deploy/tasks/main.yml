@@ -3,10 +3,17 @@
 - name: Pre Deploy Steps
   import_tasks: pre-deploy.yml
 
+- name: Remove Nextloud Services
+  docker_stack:
+    state: absent
+    name: cloud
+    compose:
+      - "{{ STG_DIR }}/nextcloud-compose.yml"
+
 - name: Deploy Nextcloud Services
   docker_stack:
     state: present
-    name: nextcloud
+    name: cloud
     compose:
       - "{{ STG_DIR }}/nextcloud-compose.yml"
 

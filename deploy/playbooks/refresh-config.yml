@@ -18,3 +18,4 @@
       loop:
         - "{{ NGINX_IMAGE }}"
         - "{{ NEXTCLOUD_IMAGE }}"
+        - "{{ COLLABORA_IMAGE }}"

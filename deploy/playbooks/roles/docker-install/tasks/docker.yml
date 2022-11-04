@@ -16,7 +16,7 @@
     state: present
 
 - name: Add Docker User to Docker Group
-  become: yes
+  become: true
   user:
     name: "{{ item }}"
     groups: docker

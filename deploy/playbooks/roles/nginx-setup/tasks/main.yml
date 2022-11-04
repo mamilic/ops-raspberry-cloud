@@ -3,7 +3,7 @@
 - name: Create NGINX Volume
   file:
     path: "{{ NGINX_VOLUME }}"
-    group: www-data
+    # group: www-data
     state: directory
 
 - name: Copy NGINX Configuration File
@@ -11,6 +11,6 @@
   template:
     src: nginx.conf.j2
     dest: "{{ NGINX_VOLUME }}/nginx.conf"
-    owner: www-data
-    group: www-data
+    # owner: www-data
+    # group: www-data
     follow: yes
