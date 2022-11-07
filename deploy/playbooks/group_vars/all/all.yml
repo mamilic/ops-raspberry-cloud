@@ -11,7 +11,7 @@ STG_DIR: "/tmp/stg"
 # DOCKER
 docker_users: ["{{ ansible_user_id }}"]
 
-NEXTCLOUD_NETWORK: "cloud_net"
+NEXTCLOUD_NETWORK: "net"
 
 PORTS:
   NEXTCLOUD: 443
