@@ -12,6 +12,12 @@
     src: docker-compose.yml.j2
     dest: "{{ STG_DIR }}/nextcloud-compose.yml"
 
+- name: Create Docker Network
+  docker_network:
+    name: "{{ NEXTCLOUD_NETWORK }}"
+    scope: swarm
+    driver: overlay
+
 - name: Pull NGINX Docker Image
   docker_image:
     name: "{{ NGINX_IMAGE }}:{{ NGINX_VERSION }}"

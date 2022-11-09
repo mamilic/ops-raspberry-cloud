@@ -1,8 +1,5 @@
 version: "3.8"
 
-networks:
-  {{ NEXTCLOUD_NETWORK }}:
-        #external: true
 
 services:
 
@@ -34,11 +31,7 @@ services:
   ################
   mariadb:
     image: {{ MARIADB_IMAGE }}:{{ MARIADB_VERSION }}
-    command: --transaction-isolation=READ-COMMITTED
-        --innodb-buffer-pool-size=1024M
-        --innodb-buffer-pool-instances=8
-        --innodb-buffer-pool-chunk-size=128M
-        --join-buffer-size=256K
+    command: --transaction-isolation=READ-COMMITTED --innodb-buffer-pool-size=1024M --innodb-io-capacity=4000 --innodb-buffer-pool-instances=8 --innodb-buffer-pool-chunk-size=128M --join-buffer-size=256K
     restart: always
     networks:
       - {{ NEXTCLOUD_NETWORK }}
@@ -73,8 +66,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html
-      - {{ NEXTCLOUD_VOLUME }}/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:ro
-      - {{ NEXTCLOUD_VOLUME }}/op-cache.conf:/usr/local/etc/php/conf.d/opcache-recommended.ini:ro
+      - {{ NEXTCLOUD_VOLUME }}/data:/var/www/html/data
+      - {{ NEXTCLOUD_VOLUME }}/php-fpm.conf:/usr/local/etc/php/conf.d/custom-config.php:ro
+      - {{ NEXTCLOUD_VOLUME }}/op-cache.conf:/usr/local/etc/php/conf.d/nextcloud-config.ini:ro
     environment:
       - MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
       - MYSQL_DATABASE={{ MYSQL_DATABASE }}
@@ -128,12 +122,15 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - {{ COLLABORA_VOLUME }}/coolwsd.xml:/etc/coolwsd/coolwsd.xml
     environment:
-      - dictionaries=en_US
       - DONT_GEN_SSL_CERT=true
       - domain=cloud.next.lan|192.168.2.192
       - password={{ COLLABORA_PASSWORD }}
       - username={{ COLLABORA_USERNAME }}
       - extra_params=--o:ssl.enable=false --o:ssl.termination=true
-      - dictionaries=en_GB
-      - server_name=cloud.next.lan
+      - dictionaries=en_US
+
+networks:
+  {{ NEXTCLOUD_NETWORK }}:
+    external: true
