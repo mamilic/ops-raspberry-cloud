@@ -21,6 +21,8 @@ services:
     networks:
       - {{ NEXTCLOUD_NETWORK }}
     volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - {{ NEXTCLOUD_VOLUME }}:/var/www/html:ro
       - {{ NGINX_VOLUME }}/nginx.conf:/etc/nginx/nginx.conf:ro
       - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
