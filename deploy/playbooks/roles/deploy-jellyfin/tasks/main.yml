@@ -1,0 +1,17 @@
+---
+
+- name: Create JELLYFIN Volume
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: 911
+    state: directory
+  loop:
+    - "{{ JELLYFIN_VOLUME }}"
+    - "{{ JELLYFIN_VOLUME }}/config"
+    - "{{ JELLYFIN_VOLUME }}/cache"
+
+- name: Stage JELLYFIN Docker Compose File
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ STG_DIR }}/jellyfin-compose.yml"

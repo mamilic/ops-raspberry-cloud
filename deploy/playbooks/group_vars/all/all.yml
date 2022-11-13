@@ -6,12 +6,13 @@ LOGGING_LEVEL_NEXTCLOUD_VALUES: ['debug', 'info', 'warn', 'error']     # NUMERIC
 LOGGING_LEVEL_COLLABORA_VALUES: ['debug', 'information', 'warning', 'error']
 LOGGING_LEVEL_REDIS_VALUES: ['debug', 'verbose', 'notice', 'warning']
 
-STG_DIR: "/tmp/stg"
+STG_DIR: "/tmp"
 
 # DOCKER
 docker_users: ["{{ ansible_user_id }}"]
 
-NEXTCLOUD_NETWORK: "net"
+NEXTCLOUD_NETWORK: "cloud"
+MEDIA_NETWORK: "media"
 
 PORTS:
   NEXTCLOUD: 443
@@ -33,6 +34,7 @@ MARIADB_VOLUME: "{{ ansible_env.HOME }}/mariadb"
 NEXTCLOUD_VOLUME: "{{ ansible_env.HOME }}/nextcloud"
 NGINX_VOLUME: "{{ ansible_env.HOME }}/nginx"
 COLLABORA_VOLUME: "{{ ansible_env.HOME }}/collabora"
+JELLYFIN_VOLUME: "{{ ansible_env.HOME }}/jellyfin"
 
 # CERT
 CERT_PATH: "/etc/ssl/certs"

@@ -1,0 +1,29 @@
+version: "3.8"
+
+
+services:
+
+  ##############
+  ### NGINX ####
+  ##############
+  nginx:
+    image: {{ NGINX_IMAGE }}:{{ NGINX_VERSION }}
+    depends_on:
+      - nextcloud
+    restart: always
+    ports:
+      - 80:80
+      - {{ PORTS.NEXTCLOUD }}:{{ PORTS.NEXTCLOUD }}
+    networks:
+      - {{ NEXTCLOUD_NETWORK }}
+      - {{ MEDIA_NETWORK }}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ NEXTCLOUD_VOLUME }}:/var/www/html:ro
+      - {{ NGINX_VOLUME }}/nginx.conf:/etc/nginx/nginx.conf:ro
+      - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
+
+networks:
+  {{ NEXTCLOUD_NETWORK }}:
+    external: true

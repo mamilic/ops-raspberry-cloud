@@ -22,3 +22,8 @@
     dest: "{{ NEXTCLOUD_VOLUME }}/php-fpm.conf"
     owner: 82
     follow: yes
+
+- name: Stage Docker Compose File
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ STG_DIR }}/nextcloud-compose.yml"

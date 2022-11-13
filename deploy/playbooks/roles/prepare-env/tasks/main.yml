@@ -1,10 +1,5 @@
 ---
 
-- name: Create Stagging Directory
-  file:
-    path: "{{ STG_DIR }}"
-    state: directory
-
 - name: Upgrade Raspberry OS
   become: true
   register: upgrade_os

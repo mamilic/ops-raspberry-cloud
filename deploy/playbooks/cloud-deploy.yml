@@ -4,19 +4,29 @@
   hosts: raspberry_pi
   roles:
     - prepare-env
-    - docker-install
-    - cert-install
+    - prepare-docker
+    - prepare-cert
   tags:
     - setup
 
-- name: Deploy Nextcloud Services
+- name: Remove Services
   hosts: raspberry_pi
   vars_files:
     - "vaults/all_configs.yml"
   roles:
-    - collabora-setup
-    - nginx-setup
-    - nextcloud-setup
-    - nextcloud-deploy
+    - remove-services
+  tags:
+    - remove
+
+- name: Deploy Services
+  hosts: raspberry_pi
+  vars_files:
+    - "vaults/all_configs.yml"
+  roles:
+    - deploy-collabora
+    - deploy-nginx
+    - deploy-nextcloud
+    - deploy-jellyfin
+    - deploy
   tags:
     - deploy

@@ -1,0 +1,25 @@
+version: "3.8"
+
+
+services:
+
+  ##################
+  ###  JELLYFIN  ###
+  ##################
+  jellyfin:
+    image: linuxserver/jellyfin:10.8.7
+    restart: always
+    ports:
+      - 8096:8096
+    networks:
+      - {{ MEDIA_NETWORK }}
+    volumes:
+      - {{ JELLYFIN_VOLUME }}/config:/config
+      - {{ JELLYFIN_VOLUME }}/cache:/cache
+      - /media/chieftec:/chieftec
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+networks:
+  {{ MEDIA_NETWORK }}:
+    external: true

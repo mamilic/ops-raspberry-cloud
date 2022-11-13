@@ -14,3 +14,8 @@
     dest: "{{ COLLABORA_VOLUME }}/coolwsd.xml"
     owner: 104
     follow: yes
+
+- name: Stage COLLABORA Docker Compose File
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ STG_DIR }}/collabora-compose.yml"
