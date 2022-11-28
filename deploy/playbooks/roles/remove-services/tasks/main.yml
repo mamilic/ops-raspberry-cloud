@@ -8,7 +8,6 @@
       - "{{ STG_DIR }}/nextcloud-compose.yml"
       - "{{ STG_DIR }}/collabora-compose.yml"
       - "{{ STG_DIR }}/nginx-compose.yml"
-      - "{{ STG_DIR }}/jellyfin-compose.yml"
 
 - name: Remove MEDIA Services
   docker_stack:

@@ -1,5 +1,12 @@
 ---
 
+- name: Create MARIADB Volume
+  become: true
+  file:
+    path: "{{ MARIADB_VOLUME }}"
+    owner: 999
+    state: directory
+
 - name: Create NEXTCLOUD Volume
   become: true
   file:
@@ -27,3 +34,11 @@
   template:
     src: docker-compose.yml.j2
     dest: "{{ STG_DIR }}/nextcloud-compose.yml"
+
+- name: Deploy NextCloud Services
+  docker_stack:
+    state: present
+    name: cloud
+    compose:
+      - "{{ STG_DIR }}/nextcloud-compose.yml"
+      - "{{ STG_DIR }}/collabora-compose.yml"

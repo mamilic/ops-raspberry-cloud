@@ -15,3 +15,10 @@
   template:
     src: docker-compose.yml.j2
     dest: "{{ STG_DIR }}/jellyfin-compose.yml"
+
+- name: Deploy Media Services
+  docker_stack:
+    state: present
+    name: media
+    compose:
+      - "{{ STG_DIR }}/jellyfin-compose.yml"

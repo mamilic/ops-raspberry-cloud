@@ -12,7 +12,22 @@
     dest: "{{ NGINX_VOLUME }}/nginx.conf"
     follow: yes
 
+- name: Copy the Configuration Templates
+  template:
+    src:  "{{ item }}"
+    dest: "{{ NGINX_VOLUME }}/{{ item | basename | regex_replace('\\.j2','') }}"
+    mode: 0644
+  with_fileglob:
+      - ../templates/*.conf.j2
+
 - name: Stage NGINX Docker Compose File
   template:
     src: docker-compose.yml.j2
     dest: "{{ STG_DIR }}/nginx-compose.yml"
+
+- name: Deploy Proxy Services
+  docker_stack:
+    state: present
+    name: proxy
+    compose:
+      - "{{ STG_DIR }}/nginx-compose.yml"

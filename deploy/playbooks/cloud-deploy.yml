@@ -7,26 +7,57 @@
     - prepare-docker
     - prepare-cert
   tags:
-    - setup
+    - prepare_env
 
-- name: Remove Services
+- name: Deploy NextCloud Services
   hosts: raspberry_pi
   vars_files:
     - "vaults/all_configs.yml"
-  roles:
-    - remove-services
-  tags:
-    - remove
-
-- name: Deploy Services
-  hosts: raspberry_pi
-  vars_files:
-    - "vaults/all_configs.yml"
+  pre_tasks:
+    - name: Remove NEXTCLOUD Services
+      docker_stack:
+        state: absent
+        name: cloud
+        compose:
+          - "{{ STG_DIR }}/nextcloud-compose.yml"
+          - "{{ STG_DIR }}/collabora-compose.yml"
   roles:
     - deploy-collabora
-    - deploy-nginx
     - deploy-nextcloud
-    - deploy-jellyfin
-    - deploy
   tags:
-    - deploy
+    - deploy_nextcloud
+
+- name: Deploy JELLYFIN Services
+  hosts: raspberry_pi
+  vars_files:
+    - "vaults/all_configs.yml"
+  pre_tasks:
+    - name: Remove JELLYFIN Services
+      docker_stack:
+        state: absent
+        name: media
+        compose:
+          - "{{ STG_DIR }}/jellyfin-compose.yml"
+  roles:
+    - deploy-jellyfin
+  tags:
+    - deploy_jellyfin
+
+- name: Deploy NGINX Services
+  hosts: raspberry_pi
+  vars_files:
+    - "vaults/all_configs.yml"
+  pre_tasks:
+    - name: Remove NGINX Services
+      docker_stack:
+        state: absent
+        name: proxy
+        compose:
+          - "{{ STG_DIR }}/nginx-compose.yml"
+  roles:
+    - deploy-nginx
+  post_tasks:
+    - name: Remove Staged Files
+      shell: rm -rf /tmp/.*-compose.yml
+  tags:
+    - deploy_nginx
