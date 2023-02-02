@@ -7,6 +7,7 @@ This is ansible script for nextcloud deployment on **raspberrypi 4** with follow
 1. [Mariadb](https://mariadb.org/)
 1. [Nginx](https://www.nginx.com/)
 1. [Collabora](https://www.collaboraoffice.com/)
+2. [Jellyfin](https://jellyfin.org/)
 
 ## Prerequisites
 You need to have configured ssh key based auth between your machines in order to run ansible script
