@@ -23,12 +23,14 @@ REDIS_IMAGE: "redis"
 MARIADB_IMAGE: "mariadb"
 NEXTCLOUD_IMAGE: "nextcloud"
 COLLABORA_IMAGE: "collabora/code"
+JELLYFIN_IMAGE: "linuxserver/jellyfin"
 
-NGINX_VERSION: "1.23.2-alpine"
-REDIS_VERSION: "alpine3.16"
-MARIADB_VERSION: "10.9.3"
-NEXTCLOUD_VERSION: "25.0.1-fpm-alpine"
-COLLABORA_VERSION: "22.05.7.2.1"
+NGINX_VERSION: "1.23.3-alpine"
+REDIS_VERSION: "alpine3.17"
+MARIADB_VERSION: "10.11.2"
+NEXTCLOUD_VERSION: "25.0.4-fpm-alpine"
+COLLABORA_VERSION: "22.05.10.8.1"
+JELLYFIN_VERSION: "10.8.9"
 
 # VOLUMES
 MARIADB_VOLUME: "{{ ansible_env.HOME }}/mariadb"
@@ -39,6 +41,7 @@ JELLYFIN_VOLUME: "{{ ansible_env.HOME }}/jellyfin"
 
 # CERT
 CERT_PATH: "/etc/ssl/certs"
+
 
 ###############
 ## ENCRYPTED ##
