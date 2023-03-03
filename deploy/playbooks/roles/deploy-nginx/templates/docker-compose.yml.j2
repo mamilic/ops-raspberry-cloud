@@ -7,7 +7,7 @@ services:
   ### NGINX ####
   ##############
   nginx:
-    image: {{ NGINX_IMAGE }}:{{ NGINX_VERSION }}
+    image: nginx:{{ NGINX_VERSION }}
     depends_on:
       - nextcloud
     restart: always
@@ -15,7 +15,7 @@ services:
       - 80:80
       - {{ PORTS.NEXTCLOUD }}:{{ PORTS.NEXTCLOUD }}
       - {{ PORTS.JELLYFIN }}:{{ PORTS.JELLYFIN }}
-      - 8097:8097
+      - {{ PORTS.JELLYFIN_HTTPS }}:{{ PORTS.JELLYFIN_HTTPS }}
     networks:
       - {{ NEXTCLOUD_NETWORK }}
       - {{ MEDIA_NETWORK }}

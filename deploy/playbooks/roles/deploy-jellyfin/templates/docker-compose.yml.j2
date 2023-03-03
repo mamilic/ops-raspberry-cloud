@@ -7,14 +7,21 @@ services:
   ###  JELLYFIN  ###
   ##################
   jellyfin:
-    image: linuxserver/jellyfin:10.8.7
+    image: {{ JELLYFIN_IMAGE }}:{{ JELLYFIN_VERSION }}
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
+    environment:
+      - PUID=1000
+      - PGID=1000
     restart: always
     networks:
       - {{ MEDIA_NETWORK }}
     volumes:
       - {{ JELLYFIN_VOLUME }}/config:/config
       - {{ JELLYFIN_VOLUME }}/cache:/cache
-      - /media/seagate:/seagate
+      - {{ JELLYFIN_MEDIA_VOLUME }}:/media
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
 
