@@ -49,13 +49,24 @@ http {
     fastcgi_send_timeout 36000s;
     fastcgi_connect_timeout 36000s;
 
-    sendfile        on;
-
-    #keepalive_timeout  65;
+    sendfile            on;
 
     upstream php-handler {
         server nextcloud:9000;
     }
+
+    ####################
+    # CACHE SETTINGS
+
+    # VIDEOS CACHE
+    # Set in-memory cache-metadata size in keys_zone, size of video caching and how many days a cached object should persist
+    proxy_cache_path  /var/cache/nginx/jellyfin-videos levels=1:2 keys_zone=jellyfin-videos:100m inactive=90d max_size=10g;
+    map $request_uri $h264Level { ~(h264-level=)(.+?)& $2; }
+    map $request_uri $h264Profile { ~(h264-profile=)(.+?)& $2; }
+
+    # IMAGES CACHE
+    proxy_cache_path /var/cache/nginx/jellyfin levels=1:2 keys_zone=jellyfin:100m max_size=5g inactive=30d use_temp_path=off;
+
 
     include /etc/nginx/sites-enabled/*.conf; 
 }
