@@ -8,6 +8,7 @@ services:
   ##############
   nginx:
     image: nginx:{{ NGINX_VERSION }}
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - nextcloud
     restart: always
@@ -32,6 +33,15 @@ services:
       - {{ NGINX_VOLUME }}/jellyfin.conf:/etc/nginx/sites-enabled/jellyfin.conf:ro
       - {{ NGINX_VOLUME }}/nextcloud.conf:/etc/nginx/sites-enabled/nextcloud.conf:ro
       - {{ CERT_PATH }}:{{ CERT_PATH }}:ro
+      - {{ NGINX_VOLUME }}/certbot/conf:/etc/letsencrypt
+      - {{ NGINX_VOLUME }}/certbot/www:/var/www/certbot
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - {{ NGINX_VOLUME }}/certbot/conf:/etc/letsencrypt
+      - {{ NGINX_VOLUME }}/certbot/www:/var/www/certbot
 
 networks:
   {{ NEXTCLOUD_NETWORK }}:
