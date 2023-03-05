@@ -6,8 +6,8 @@ server {
  
   # Static Files
   location ^~ /browser {
-      proxy_pass  http://collabora:9980;
-      proxy_set_header Host $host;
+      proxy_pass        http://collabora:9980;
+      proxy_set_header  Host $host;
   }
 
   location ^~ /browser/dist/admin {
@@ -16,37 +16,37 @@ server {
 
   # WOPI Discovery URL
   location ^~ /hosting/discovery {
-      proxy_pass  http://collabora:9980;
-      proxy_set_header Host $host;
+      proxy_pass        http://collabora:9980;
+      proxy_set_header  Host $host;
   }
 
   # Capabilities
   location ^~ /hosting/capabilities {
-      proxy_pass  http://collabora:9980;
-      proxy_set_header Host $host;
+      proxy_pass        http://collabora:9980;
+      proxy_set_header  Host $host;
   }
 
   # Main Websocket
   location ~ /cool/(.*)/ws$ {
-      proxy_pass  http://collabora:9980;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "Upgrade";
-      proxy_set_header Host $host;
-      proxy_read_timeout 36000s;
+      proxy_pass          http://collabora:9980;
+      proxy_set_header    Upgrade $http_upgrade;
+      proxy_set_header    Connection "Upgrade";
+      proxy_set_header    Host $host;
+      proxy_read_timeout  36000s;
   }
 
   # download, presentation and image upload
   location ~ ^/(c|l)ool {
-      proxy_pass  http://collabora:9980;
-      proxy_set_header Host $host;
+      proxy_pass        http://collabora:9980;
+      proxy_set_header  Host $host;
   }
 
   # Admin Console Websocket
   location ^~ /cool/adminws {
-      proxy_pass  http://collabora:9980;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "Upgrade";
-      proxy_set_header Host $host;
-      proxy_read_timeout 36000s;
+      proxy_pass          http://collabora:9980;
+      proxy_set_header    Upgrade $http_upgrade;
+      proxy_set_header    Connection "Upgrade";
+      proxy_set_header    Host $host;
+      proxy_read_timeout  36000s;
   }
 }

@@ -3,7 +3,7 @@
 ##########################
 # Redirection server 80 -> 443
 server {
-    listen 80;
+    listen      80;
     server_name localhost;
 
     server_tokens off;
@@ -19,15 +19,15 @@ server {
     listen 443      ssl http2;
     listen [::]:443 ssl http2;
 
-    server_name cloud.next.lan;
+    server_name   cloud.next.lan;
 
     server_tokens off;
 
-    rewrite_log  on;
+    rewrite_log   on;
 
-    ssl_certificate {{ CERT_PATH }}/cert.pem;
+    ssl_certificate     {{ CERT_PATH }}/cert.pem;
     ssl_certificate_key {{ CERT_PATH }}/key.pem;
-    ssl_dhparam {{ CERT_PATH }}/dhparam.pem;
+    ssl_dhparam         {{ CERT_PATH }}/dhparam.pem;
 
     # HSTS settings
     # WARNING: Only add the preload option once you read about
@@ -38,16 +38,16 @@ server {
     add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
 
     # set max upload size
-    client_max_body_size 0;
-    fastcgi_buffers 64 4K;
+    client_max_body_size  0;
+    fastcgi_buffers       64 4K;
 
     # Enable gzip but do not remove ETag headers
-    gzip on;
-    gzip_vary on;
-    gzip_comp_level 4;
-    gzip_min_length 256;
-    gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
-    gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/wasm application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+    gzip              on;
+    gzip_vary         on;
+    gzip_comp_level   4;
+    gzip_min_length   256;
+    gzip_proxied      expired no-cache no-store private no_last_modified no_etag auth;
+    gzip_types        application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/wasm application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
 
     # Pagespeed is not supported by Nextcloud, so if your server is built
     # with the `ngx_pagespeed` module, uncomment this line to disable it.
@@ -87,8 +87,8 @@ server {
 
     # Static Files
     location ^~ /browser {
-        proxy_pass  http://collabora:9980;
-        proxy_set_header Host $host;
+        proxy_pass        http://collabora:9980;
+        proxy_set_header  Host $host;
     }
 
     location ^~ /browser/dist/admin {
@@ -97,38 +97,38 @@ server {
 
     # WOPI Discovery URL
     location ^~ /hosting/discovery {
-        proxy_pass  http://collabora:9980;
-        proxy_set_header Host $host;
+        proxy_pass        http://collabora:9980;
+        proxy_set_header  Host $host;
     }
 
     # Capabilities
     location ^~ /hosting/capabilities {
-        proxy_pass  http://collabora:9980;
-        proxy_set_header Host $host;
+        proxy_pass        http://collabora:9980;
+        proxy_set_header  Host $host;
     }
 
     # Main Websocket
     location ~ /cool/(.*)/ws$ {
-        proxy_pass  http://collabora:9980;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "Upgrade";
-        proxy_set_header Host $host;
-        proxy_read_timeout 36000s;
+        proxy_pass          http://collabora:9980;
+        proxy_set_header    Upgrade $http_upgrade;
+        proxy_set_header    Connection "Upgrade";
+        proxy_set_header    Host $host;
+        proxy_read_timeout  36000s;
     }
 
     # download, presentation and image upload
     location ~ ^/(c|l)ool {
-        proxy_pass  http://collabora:9980;
-        proxy_set_header Host $host;
+        proxy_pass        http://collabora:9980;
+        proxy_set_header  Host $host;
     }
 
     # Admin Console Websocket
     location ^~ /cool/adminws {
-        proxy_pass  http://collabora:9980;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "Upgrade";
-        proxy_set_header Host $host;
-        proxy_read_timeout 36000s;
+        proxy_pass          http://collabora:9980;
+        proxy_set_header    Upgrade $http_upgrade;
+        proxy_set_header    Connection "Upgrade";
+        proxy_set_header    Host $host;
+        proxy_read_timeout  36000s;
     }
 
 
@@ -144,9 +144,9 @@ server {
     }
 
     location = /robots.txt {
-        allow all;
-        log_not_found off;
-        access_log off;
+        allow           all;
+        log_not_found   off;
+        access_log      off;
     }
 
     # Make a regex exception for `/.well-known` so that clients can still
@@ -185,23 +185,23 @@ server {
 
         try_files $fastcgi_script_name =404;
 
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $path_info;
-        #fastcgi_param HTTPS on;
+        include         fastcgi_params;
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param   PATH_INFO $path_info;
+        #fastcgi_param  HTTPS on;
 
-        fastcgi_param modHeadersAvailable true;         # Avoid sending the security headers twice
-        fastcgi_param front_controller_active true;     # Enable pretty urls
-        fastcgi_pass php-handler;
+        fastcgi_param   modHeadersAvailable true;         # Avoid sending the security headers twice
+        fastcgi_param   front_controller_active true;     # Enable pretty urls
+        fastcgi_pass    php-handler;
 
-        fastcgi_intercept_errors on;
-        fastcgi_request_buffering off;
+        fastcgi_intercept_errors    on;
+        fastcgi_request_buffering   off;
     }
 
     location ~ \.(?:css|js|svg|gif|png|jpg|ico|wasm|tflite|map)$ {
-        try_files $uri /index.php$request_uri;
-        expires 6M;         # Cache-Control policy borrowed from `.htaccess`
-        access_log off;     # Optional: Don't log access to assets
+        try_files   $uri /index.php$request_uri;
+        expires     6M;         # Cache-Control policy borrowed from `.htaccess`
+        access_log  off;     # Optional: Don't log access to assets
 
         location ~ \.wasm$ {
             default_type application/wasm;
@@ -209,9 +209,9 @@ server {
     }
 
     location ~ \.woff2?$ {
-        try_files $uri /index.php$request_uri;
-        expires 7d;         # Cache-Control policy borrowed from `.htaccess`
-        access_log off;     # Optional: Don't log access to assets
+        try_files   $uri /index.php$request_uri;
+        expires     7d;         # Cache-Control policy borrowed from `.htaccess`
+        access_log  off;     # Optional: Don't log access to assets
     }
 
     # Rule borrowed from `.htaccess`

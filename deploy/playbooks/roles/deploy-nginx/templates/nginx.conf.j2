@@ -21,14 +21,14 @@ http {
     #allow 192.168.2.178;
     #deny all;
 
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
+    include         /etc/nginx/mime.types;
+    default_type    application/octet-stream;
 
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format      main  '$remote_addr - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for"';
 
-    access_log  off;
+    access_log      off;
 
     # don't buffer data sent, good for small data bursts in real time
     tcp_nodelay on;
@@ -36,17 +36,17 @@ http {
     tcp_nopush on;
 
     # Optimize session cache
-    ssl_session_cache shared:SSL:50m;
-    ssl_session_timeout 1d;
+    ssl_session_cache       shared:SSL:50m;
+    ssl_session_timeout     1d;
 
-    # Enable session tickets
-    ssl_session_tickets on;
+    # Enable session        tickets
+    ssl_session_tickets     on;
 
     proxy_request_buffering off;
 
     # UPSTREAM PHP TIMEOUT
-    fastcgi_read_timeout 36000s;
-    fastcgi_send_timeout 36000s;
+    fastcgi_read_timeout    36000s;
+    fastcgi_send_timeout    36000s;
     fastcgi_connect_timeout 36000s;
 
     sendfile            on;
