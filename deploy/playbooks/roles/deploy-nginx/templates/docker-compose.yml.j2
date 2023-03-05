@@ -12,10 +12,15 @@ services:
       - nextcloud
     restart: always
     ports:
-      - 80:80
+      - target: {{ PORTS.JELLYFIN }}
+        published: {{ PORTS.JELLYFIN }}
+        protocol: tcp
+        mode: host
+      - target: {{ PORTS.JELLYFIN_HTTPS }}
+        published: {{ PORTS.JELLYFIN_HTTPS }}
+        protocol: tcp
+        mode: host
       - {{ PORTS.NEXTCLOUD }}:{{ PORTS.NEXTCLOUD }}
-      - {{ PORTS.JELLYFIN }}:{{ PORTS.JELLYFIN }}
-      - {{ PORTS.JELLYFIN_HTTPS }}:{{ PORTS.JELLYFIN_HTTPS }}
     networks:
       - {{ NEXTCLOUD_NETWORK }}
       - {{ MEDIA_NETWORK }}
